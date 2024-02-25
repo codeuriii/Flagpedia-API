@@ -37,3 +37,7 @@ with open("french_flag.png", "wb") as f:
     f.write(country_flag_bytes)
 
 ```
+
+# Questions
+
+If you have **any** questions, please send it in [issues page](https://github.com/codeuriii/Flagpedia-API/issues)
