@@ -1,4 +1,5 @@
 
+from urllib import response
 import requests
 import pycountry
 
@@ -24,8 +25,16 @@ class FlagpediaAPI:
             except LookupError:
                 return None
 
-    def get_flag(self, country_code: str, resolution: tuple[str, str]) -> (bytes | None):
+    def get_flag(self, country_code: str, resolution: tuple[str, str] = (256, 192)) -> (bytes | None):
         url = f"{self.default_url}/{resolution[0]}x{resolution[1]}/{country_code}.png"
+        response = requests.get(url)
+        if not response.ok:
+            return None
+        else:
+            return response.content
+        
+    def get_svg_flag(self, country_code: str) -> (str | None):
+        url = f"{self.default_url}/{country_code}.svg"
         response = requests.get(url)
         if not response.ok:
             return None
