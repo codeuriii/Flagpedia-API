@@ -76,9 +76,18 @@ class FlagpediaAPI:
                 current_data = {}
                 current_data["flag"] = "https://flagpedia.net" + li.a.img["src"].replace("h80", "w2560")
                 current_data["iso"] = li.a["href"].split("/")[-1]
-                
+                try:
+                    current_data["num_members"] = int(li.a["data-note"].split(" ")[0])
+                except:
+                    current_data["num_members"] = None
 
-                current_org_response = requests.get(f"{self.organizations_url}")
+                current_org_response = requests.get(f"{self.organizations_url}/{current_data['iso']}#t")
+                current_soup = BeautifulSoup(current_org_response.text, "html.parser")
+                ul_members = current_soup.find("ul", class_="flag-grid")
+                for member_li in ul_members.find_all("li"):
+                    current_data["area"] = member_li.a["data-area"]
+                    current_data["population"] = member_li.a["data-population"]
+                    current_data["name"] = member_li.a.span.text
 
                 data[li.a.span.text] = current_data
             
