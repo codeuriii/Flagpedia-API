@@ -75,7 +75,11 @@ class FlagpediaAPI:
             for li in soup.select('#content > div > ul')[0].find_all("li")[:-1]:
                 current_data = {}
                 current_data["flag"] = "https://flagpedia.net" + li.a.img["src"].replace("h80", "w2560")
-            
+                current_data["iso"] = li.a["href"].split("/")[-1]
+                
+
+                current_org_response = requests.get(f"{self.organizations_url}")
+
                 data[li.a.span.text] = current_data
             
             return data
