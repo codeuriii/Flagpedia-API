@@ -76,6 +76,6 @@ class FlagpediaAPI:
             soup = BeautifulSoup(response.text, "html.parser")
             data = {}
             for li in soup.select('#content > div > ul')[0].find_all("li")[:-1]:
-                data[li.a.span.text] = "https://flagpedia.net" + li.a.img["src"]
+                data[li.a.span.text] = "https://flagpedia.net" + li.a.img["src"].replace("h80", "w2560")
             
             return data
