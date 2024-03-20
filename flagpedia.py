@@ -12,15 +12,15 @@ class FlagpediaAPI:
     def convert(self, code: str, how: int) -> (str | None):
         if how == self.iso_to_name:
             try:
-                language = pycountry.languages.get(alpha_2=code)
-                return language.name
+                language = pycountry.countries.get(alpha_2=code)
+                return language.name.lower()
             except AttributeError:
                 return None
         
         if how == self.name_to_iso:
             try:
-                language = pycountry.languages.lookup(code)
-                return language.alpha_2
+                language = pycountry.countries.lookup(code)
+                return language.alpha_2.lower()
             except LookupError:
                 return None
 
@@ -39,6 +39,24 @@ class FlagpediaAPI:
             return None
         else:
             return response.content
+
+    def get_flag_by_width(self, country_code: str, width: int = 2560) -> (bytes | None):
+        possibles_width = [
+            20, 40,
+            80, 160,
+            320, 640,
+            1280, 2560
+        ]
+
+        if not width in possibles_width:
+            raise ValueError(f"Current width {width} is not in possibles widths {possibles_width}")
+        
+        url = f"{self.default_url}/w{width}/{country_code}.png"
+        response = requests.get(url)
+        if response.ok:
+            return response.content
+        else:
+            return None
         
     def get_svg_flag(self, country_code: str) -> (bytes | None):
         url = f"{self.default_url}/{country_code}.svg"
