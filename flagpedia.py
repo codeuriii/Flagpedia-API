@@ -8,23 +8,20 @@ class FlagpediaAPI:
     def __init__(self) -> None:
         self.default_url = "https://flagcdn.com"
         self.organizations_url = "https://flagpedia.net/organization"
-        self.name_to_iso = 0
-        self.iso_to_name = 1
 
-    def convert(self, code: str, how: int) -> (str | None):
-        if how == self.iso_to_name:
-            try:
-                language = pycountry.countries.get(alpha_2=code)
-                return language.name.lower()
-            except AttributeError:
-                return None
-        
-        if how == self.name_to_iso:
-            try:
-                language = pycountry.countries.lookup(code)
-                return language.alpha_2.lower()
-            except LookupError:
-                return None
+    def get_name(self, country_iso: str) -> (str | None):
+        try:
+            language = pycountry.countries.get(alpha_2=country_iso)
+            return language.name.lower()
+        except AttributeError:
+            return None
+
+    def get_iso(self, country_name: str) -> (str | None):
+        try:
+            language = pycountry.countries.lookup(country_name)
+            return language.alpha_2.lower()
+        except LookupError:
+            return None
 
     def get_waving_flag(self, country_code: str, resolution: tuple[int, int] = (256, 192)) -> (bytes | None):
         if resolution[0] > 256:
