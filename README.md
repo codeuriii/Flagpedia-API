@@ -7,11 +7,11 @@ This is a unofficial API for Flagpedia
 - `pycountry`, you can install it with `pip install pycountry`
 - `BeautifulSoup`, you can install it with `pip install bs4`
 
-## Using
+## Usage
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/codeuriii/flagpedia-api
+git clone https://github.com/codeuriii/flagpedia-api.git
 ```
 
 2. Go to the repository
@@ -27,8 +27,8 @@ from flagpedia import FlagpediaAPI
 flagAPI = FlagpediaAPI()
 
 # Get the country code iso
-country_name = "French"
-country_code = flagAPI.convert(country_name, flagAPI.name_to_iso)
+country_name = "France"
+country_code = flagAPI.get_iso(country_name)
 
 # Get bytes of waving flag png image         # Custom resolutions, always in 4:3
 country_flag_bytes = flagAPI.get_flag(country_code, (256, 192))
@@ -41,4 +41,4 @@ with open("french_flag.png", "wb") as f:
 
 # Questions
 
-If you have **any** questions, please send it in [issues page](https://github.com/codeuriii/Flagpedia-API/issues)
+If you have **any** questions or ideas for the project, please send it in [issues page](https://github.com/codeuriii/Flagpedia-API/issues)
