@@ -56,6 +56,24 @@ class FlagpediaAPI:
             return response.content
         else:
             return None
+
+    def get_flag_by_height(self, country_code: str, height: int = 240) -> (bytes | None):
+        possibles_height = [
+            20, 24,
+            40, 60,
+            80, 120,
+            240
+        ]
+
+        if not height in possibles_height:
+            raise ValueError(f"Current height {height} is not in possibles heights {possibles_height}")
+        
+        url = f"{self.default_url}/h{height}/{country_code}.png"
+        response = requests.get(url)
+        if response.ok:
+            return response.content
+        else:
+            return None
         
     def get_svg_flag(self, country_code: str) -> (bytes | None):
         url = f"{self.default_url}/{country_code}.svg"
