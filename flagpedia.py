@@ -71,11 +71,12 @@ class FlagpediaAPI:
             return None
         else:
             soup = BeautifulSoup(response.text, "html.parser")
-            data = {}
+            data = []
             for li in soup.select('#content > div > ul')[0].find_all("li")[:-1]:
                 current_data = {}
                 current_data["flag"] = "https://flagpedia.net" + li.a.img["src"].replace("h80", "w2560")
                 current_data["iso"] = li.a["href"].split("/")[-1]
+                current_data["name"] = li.a.span.text
                 try:
                     current_data["num_members"] = int(li.a["data-note"].split(" ")[0])
                 except:
@@ -84,11 +85,16 @@ class FlagpediaAPI:
                 current_org_response = requests.get(f"{self.organizations_url}/{current_data['iso']}#t")
                 current_soup = BeautifulSoup(current_org_response.text, "html.parser")
                 ul_members = current_soup.find("ul", class_="flag-grid")
+                if not ul_members:
+                    continue
+                current_data["members"] = []
                 for member_li in ul_members.find_all("li"):
-                    current_data["area"] = member_li.a["data-area"]
-                    current_data["population"] = member_li.a["data-population"]
-                    current_data["name"] = member_li.a.span.text
-
-                data[li.a.span.text] = current_data
+                    member_data = {}
+                    member_data["area"] = member_li.a["data-area"]
+                    member_data["population"] = member_li.a["data-population"]
+                    member_data["name"] = member_li.a.span.text
+                    current_data["members"].append(member_data)
+                
+                data.append(current_data)
             
             return data
