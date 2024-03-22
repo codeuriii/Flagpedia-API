@@ -94,6 +94,8 @@ class FlagpediaAPI:
                 current_data = {}
                 current_data["flag"] = "https://flagpedia.net" + li.a.img["src"].replace("h80", "w2560")
                 current_data["iso"] = li.a["href"].split("/")[-1]
+                current_data["waving_flag"] = f"{self.default_url}/256x192/{current_data['iso']}.png"
+                current_data["svg_flag"] = f"{self.default_url}/{current_data['iso']}.svg"
                 current_data["name"] = li.a.span.text
                 try:
                     current_data["num_members"] = int(li.a["data-note"].split(" ")[0])
@@ -111,6 +113,9 @@ class FlagpediaAPI:
                     member_data["area"] = member_li.a["data-area"]
                     member_data["population"] = member_li.a["data-population"]
                     member_data["name"] = member_li.a.span.text
+                    member_data["iso"] = self.get_iso(member_data["name"])
+                    member_data["waving_flag"] = f"{self.default_url}/256x192/{member_data['iso']}.png"
+                    member_data["svg_flag"] = f"{self.default_url}/{member_data['iso']}.svg"
                     current_data["members"].append(member_data)
                 
                 data.append(current_data)
