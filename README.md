@@ -6,6 +6,10 @@ This is a unofficial API for Flagpedia
 - `requests`, you can install it with `pip install requests`
 - `pycountry`, you can install it with `pip install pycountry`
 - `BeautifulSoup`, you can install it with `pip install bs4`
+- Install all required modules with
+```bash
+pip install requests pycountry bs4
+```
 
 ## Usage
 
