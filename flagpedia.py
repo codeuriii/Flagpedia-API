@@ -115,6 +115,7 @@ class FlagpediaAPI:
                     member_data["name"] = member_li.a.span.text
                     member_data["iso"] = self.get_iso(member_data["name"])
                     member_data["waving_flag"] = f"{self.default_url}/256x192/{member_data['iso']}.png"
+                    member_data["flag"] = f"{self.default_url}/w2560/{member_data['iso']}.png"
                     member_data["svg_flag"] = f"{self.default_url}/{member_data['iso']}.svg"
                     current_data["members"].append(member_data)
                 
